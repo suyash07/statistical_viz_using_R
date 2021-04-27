@@ -1,0 +1,934 @@
+\documentclass[12pt,letterpaper,final]{article}
+
+%\usepackage{Sweave}
+\usepackage{graphicx}
+\usepackage[hyphens]{url}
+\usepackage{natbib}
+\usepackage[hidelinks,breaklinks=true]{hyperref}
+\usepackage{caption}
+\usepackage{rotating}
+\usepackage{verbatim}
+\usepackage[title,titletoc,toc]{appendix}
+\usepackage{textcomp}
+\usepackage{wasysym}
+\usepackage{multirow}
+
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6.15in}
+%\setlength{\topmargin}{0.5in}
+\setlength{\textheight}{22cm}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\parskip}{5pt plus 2pt minus 3pt}
+
+\def\thefootnote{\fnsymbol{footnote}}
+\setcounter{footnote}{1}
+
+\renewcommand{\baselinestretch}{1.2}
+\renewcommand{\labelenumi}{(\roman{enumi})}
+
+\renewcommand{\topfraction}{1.0}
+\renewcommand{\bottomfraction}{1.0}
+\renewcommand{\textfraction}{0.0}
+\renewcommand{\floatpagefraction}{1.0}
+
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+
+% to get nice proofs ...
+\newcommand{\qedsymb}{\mbox{ }~\hfill~{\rule{2mm}{2mm}}}
+\newenvironment{proof}{\begin{trivlist}
+\item[\hspace{\labelsep}{\bf\noindent Proof: }]
+}{\qedsymb\end{trivlist}}
+
+
+\newfont{\msymb}{cmsy10 scaled 1000}
+
+\def\nullset{\mbox{\O}}
+\def\R{{I\!\!R}}
+\def\C{{I\!\!\!\!C}}
+\def\N{{I\!\!N}}
+
+\def\P{\mbox{\msymb P}}
+
+
+%\parskip 0.1in
+\pagenumbering{arabic}    %  Start using 1,2,... as page numbers.
+\pagestyle{plain}         %  Page numbers in middle bottom of page.
+%\setcounter{page}{80}  % XXXXXXXXXXXXXXXXX
+%\setcounter{theorem}{5} % XXXXXXXXXXXXXXXXX
+%\setcounter{definition}{10} % XXXXXXXXXXXXXXXXX
+
+\parindent 0in
+
+
+\begin{document}
+
+<<echo=FALSE>>=
+library(knitr)
+knitr::opts_chunk$set(warning = FALSE)
+@
+
+%\SweaveOpts{concordance=TRUE}
+\newpage
+
+\begin{table}\centering
+\begin{tabular*}{6.15in}{@{\extracolsep{\fill}}|llr|} \hline
+Suyash Mhetre & \hspace*{0.5 in} & A02317398 \\
+ & & \\
+\multicolumn{3}{|c|}{
+Homework Assignment 2 (11/21/2020)} \\
+ & & \\
+\hline
+\end{tabular*}
+\end{table}
+
+\newpage
+
+\begin{table}\centering
+\begin{tabular*}{6.15in}{@{\extracolsep{\fill}}|llr|} \hline
+Stat 5550 Statistical Visualization I & \hspace*{0.5 in} & Fall 2020 \\
+ & & \\
+\multicolumn{3}{|c|}{
+Homework Assignment 2 (10/03/2020)} \\
+ & & \\
+\multicolumn{3}{|c|}{
+65 Points --- Due Friday 11/13/2020 (via Canvas by 11:59pm)} \\
+\hline
+\end{tabular*}
+\end{table}
+
+
+\begin{enumerate}
+
+\item (39 Points) {\bf Olive Oils from Italy:}
+In this question, you have to work with the {\it oliveoil} data set 
+from the {\it pdfCluster} R package.
+We are only interested in the variables {\it palmitic} and {\it macro.area}
+in this question. Ignore all other variables.
+See the {\it oliveoil} help page for further details.
+
+%The {\it extracat} R package recently was removed from CRAN.
+%So, we have to install it from github first to get access to the {\it oliveoil} data set.
+%Run the following first:
+%\begin{verbatim}
+%devtools::install_github("heike/extracat")
+%\end{verbatim}
+
+%If you are working under Windows, you may get an error here. In that case,
+%install {\it Rtools} first from \url{https://cran.r-project.org/bin/windows/Rtools/}.
+%Then try to install {\it extracat} again.
+
+%library(extracat) # no longer available from CRAN
+
+
+\begin{enumerate}
+\item (2 Points) 
+Load all required R packages to answer this question. Show your R code.
+Do not just blindly trust the information on the help page! How many observations are included 
+in this data set overall? And how many are there in each of the three macro areas? \\
+
+
+Use something like the following to incorporate results from your R code directly
+into your \LaTeX text:
+``Apparently, there are \Sexpr{sprintf("%i", dim(cars)[1])} observations
+in the cars data set.'' \\
+
+
+\underline{Answer:}
+{\scriptsize
+<<>>=
+# Place your answer here
+library(pdfCluster)
+data("oliveoil")
+str(oliveoil)
+names(oliveoil)
+dim(oliveoil)
+nrow(oliveoil)
+ncol(oliveoil)
+@
+}
+
+\underline{Comments:} \\
+Place your answer here
+There are 572 observations and 10 columns/variables.
+There are three levels of macr area.
+
+\underline{Reference :} 
+\begin{itemize}
+\item Help page of pdf cluster
+\end{itemize}
+
+\newpage
+
+
+\item (3 Points) 
+Create a default histogram of {\it palmitic} 
+for all three macro areas combined
+via {\it ggplot2}. Do not optimize
+this histogram. Describe this histogram. 
+Include your figure and your R code. \\
+
+
+\underline{Answer:}
+{\scriptsize
+<<fig.width=4,fig.height=3.5>>=
+# Place your answer here
+library(ggplot2)
+oliveoildf <- as.data.frame(oliveoil)
+
+ggplot(oliveoildf, aes(x = palmitic, fill = macro.area)) +
+        geom_histogram() 
+@
+}
+
+
+\underline{Comments:} \\
+Place your answer here
+If we look at the palmitic and macro areas we can say that maximum number of
+macro areas lie in the 1000-1250 region of palmitic.Also, South macro area 
+has more palmitic spead compared to the other two.
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {http://www.sthda.com/english/wiki/ggplot2-histogram-plot-quick-start-guide-r-software-and-data-visualization}
+\end{itemize}
+
+
+\newpage
+
+
+\item (4 Points) 
+Create four histogram of {\it palmitic} 
+for all three macro areas combined
+via {\it ggplot2},
+using Sturges, sqrt(n), Scott, and FD breaks.
+How many intervals are there in each of the four histograms?
+Consider them as small multiples.  So enforce the same scale 
+for the horizontal and vertical axes.
+Describe these histograms. What is similar, what is different?
+
+{\bf Note:} We would like to see how poor the original {\it ggplot2} defaults
+are for these four histograms. Therefore, first create a dummy ggplot object
+for each of the four break types, but do not plot any of these histograms. 
+Then extract the actual intervals
+used by {\it ggplot2} from these four dummy objects using the \verb|ggplot_build|
+function. Finally, use these extracted intervals and create 
+four new {\it ggplot2} histograms and plot them.
+In each of your four plots, you have to use the extracted intervals twice:
+once for the actual breaks and once for the scales.
+Using \verb|scale_x_continuous| and \verb|scale_y_continuous|
+may be helpful to enforce he same scale 
+for the horizontal and vertical axes for all four of these histograms.
+
+Include your final graphs (arranged in a single figure) and your R code. \\
+
+
+\underline{Answer:}
+{\scriptsize
+<<>>=
+# Place your answer here
+
+
+library(gridExtra)
+
+palmitic_length <- oliveoil[, 3]
+h <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram()
+pg <- ggplot_build(h)
+n <- length(palmitic_length)
+
+
+# Sturges breaks
+h1 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(bins = nclass.Sturges(palmitic_length)) +
+        ggtitle("Sturges Breaks") +
+        scale_x_continuous(breaks = pg$data[[1]]$xmin) +
+        scale_y_continuous(limits = c(0, 175)) +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 90)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Frequency")
+
+# Place your answer here
+
+# sqrt(n) breaks
+h2 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(bins = as.integer(sqrt(n))) +
+        ggtitle("sqrt(n) Breaks") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 90)) +
+        scale_x_continuous(breaks = pg$data[[1]]$xmin) +
+        scale_y_continuous(limits = c(0, 175)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Frequency")
+# Place your answer here
+
+# Scott breaks
+h3 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(bins = nclass.scott(palmitic_length)) +
+        ggtitle("Scott Breaks") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 90)) +
+        scale_x_continuous(breaks = pg$data[[1]]$xmin) +
+        scale_y_continuous(limits = c(0, 175)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Frequency")
+# Place your answer here
+
+# FD breaks
+h4 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(bins = nclass.FD(palmitic_length)) +
+        ggtitle("FD Breaks") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 90)) +
+        scale_x_continuous(breaks = pg$data[[1]]$xmin) +
+        scale_y_continuous(limits = c(0, 175)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Frequency")
+
+grid.arrange(h1, h2, h3, h4, nrow = 2)
+@
+}
+
+
+\underline{Comments:} \\
+Place your answer here
+If we look at the sturges graph it is a smoothened graph compared to the other 3 but at the same
+time it also misses some data. It also has more binwidth compared to other 3 graphs.The scale on 
+y axis that we have extracted does not make much sense and not useful for user.All the 4 graphs 
+are similar in terms of detecting the outliers at the 571-600 range.
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {http://www.sthda.com/english/wiki/ggplot2-histogram-plot-quick-start-guide-r-software-and-data-visualization}
+\item Referred the lecture notes as well
+\end{itemize}
+
+\newpage
+
+
+\item (3 Points) 
+Choose one of your four histograms and optimize
+it for a human reader via {\it ggplot2}. Make sure to select meaningful 
+starting values for the intervals and meaningful interval widths. 
+610 (as starting value) and 33.5 (as interval width) are not meaningful
+for a human reader. You may end up
+with a slightly different number of intervals than what you started with.
+Indicate which numbers you selected for the starting value, the number of intervals, and
+the interval widths. Further optimize this histogram.
+Include your final graph and your R code. \\
+
+
+\underline{Answer:} \\
+Place your answer here
+
+{\scriptsize
+<<fig.width=7,fig.height=3.5>>=
+# Place your answer here
+ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(bins = nclass.Sturges(palmitic_length)) +
+        ggtitle("Sturges Breaks") +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        scale_x_continuous(breaks = seq(500, 2000, 100)) +
+        scale_y_continuous(breaks = seq(0, 200, 25)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Frequency")
+@
+}
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {http://www.sthda.com/english/wiki/ggplot2-histogram-plot-quick-start-guide-r-software-and-data-visualization}
+\end{itemize}
+
+\newpage
+
+
+\item (3 Points) 
+What does baseR do? Work with the same method you used
+for your manually optimized histogram in {\it ggplot2}, i.e.,
+Sturges, sqrt(n), Scott, or FD breaks. How does the resulting baseR
+histogram of {\it palmitic} compare to your optimized one from {\it ggplot2}
+with respect to starting value, the number of intervals, and interval widths?
+Include your final figure and your R code. \\
+
+
+\underline{Answer:} \\
+{\scriptsize
+<<fig.width=7.5,fig.height=7.5>>=
+# Place your answer here
+hist(
+        oliveoil$palmitic,
+        xlab = "Palmitic Fatty acid",
+        main = "Sqrt(n) Breaks",
+        breaks = as.integer(sqrt(n))
+)
+@
+}
+
+
+\underline{Comments:} \\
+Place your answer here
+BaseR removes the scale breaks that are not necessary and is more readable even when we draw
+the default graph. Also, it does not miss the bins and data on the edges.
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {https://statisticsglobe.com/histogram-in-base-r-hist-function}
+\end{itemize}
+
+\newpage
+
+
+\item (6 Points) 
+Continue with your manually optimized histogram in {\it ggplot2}.
+Make sure to switch your histogram to a density scale.
+Then create six different plots that overlay six different density curves,
+using the default, nrd, ucv, bcv, SJ-ste, and SJ-dpi bandwidths.
+Do not further modify the multiplicative bandwidth adjustment (just keep
+the default for this). Add a jittered rug plot underneath.
+Jitter once and then use the same jittering for all other rug plots as well.
+Indicate the amount you use for jittering and why you choose that amount.
+
+{\bf Be careful:} Your histograms and density curves must make use of the original
+data and not of the jittered data.
+
+Include your final graphs (arranged in a single figure) and your R code. 
+Describe which of the six bandwiths seems to be the best option to
+create a density curve for this variable (use the histogram and rug plot 
+for comparison). \\
+
+
+\underline{Answer:}
+{\scriptsize
+<<fig.width=7,fig.height=8.0>>=
+# Place your answer here
+library(ggplot2)
+library(gridExtra)
+
+h1 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(aes(y = ..density..), bins = nclass.Sturges(palmitic_length)) +
+        ggtitle("Default") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 45)) +
+        scale_x_continuous(breaks = seq(500, 2000, 200)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Density") +
+        geom_density(col = "red") +
+        geom_rug()
+
+h2 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(aes(y = ..density..), bins = nclass.Sturges(palmitic_length)) +
+        ggtitle("SJ-ste") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 45)) +
+        scale_x_continuous(breaks = seq(500, 2000, 200)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Density") +
+        geom_density(bw = "SJ-ste", col = "red") +
+        geom_rug()
+
+h3 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(aes(y = ..density..), bins = nclass.Sturges(palmitic_length)) +
+        ggtitle("nrd") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 45)) +
+        scale_x_continuous(breaks = seq(500, 2000, 200)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Density") +
+        geom_density(bw = "nrd", col = "red") +
+        geom_rug()
+
+h4 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(aes(y = ..density..), bins = nclass.Sturges(palmitic_length)) +
+        ggtitle("ucv") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 45)) +
+        scale_x_continuous(breaks = seq(500, 2000, 200)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Density") +
+        geom_density(bw = "ucv", col = "red") +
+        geom_rug()
+
+h5 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(aes(y = ..density..), bins = nclass.Sturges(palmitic_length)) +
+        ggtitle("bcv") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 45)) +
+        scale_x_continuous(breaks = seq(500, 2000, 200)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Density") +
+        geom_density(bw = "bcv", col = "red") +
+        geom_rug()
+
+h6 <- ggplot(oliveoil, aes(x = palmitic_length)) +
+        geom_histogram(aes(y = ..density..), bins = nclass.Sturges(palmitic_length)) +
+        ggtitle("SJ-dpi") +
+        theme(plot.title = element_text(hjust = 0.5),
+              axis.text.x = element_text(angle = 45)) +
+        scale_x_continuous(breaks = seq(500, 2000, 200)) +
+        xlab("Palmitic Fatty acid") +
+        ylab("Density") +
+        geom_density(bw = "SJ-dpi", col = "red") +
+        geom_rug()
+
+grid.arrange(h1, h2, h3, h4, h5, h6, ncol = 3)
+@
+}
+
+\underline{Comments:} \\
+Place your answer here
+According to my obsesrvation the default histogram also looks good to be
+used for density curve. but the best option would be to go with the nrd as the curve 
+is really soomth compared to others where the density curve gets distorted. Also,
+I have used the default rug and jitters as it shows the noramlly distributed bins perfectly.
+
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {https://stat.ethz.ch/R-manual/R-devel/library/stats/html/bandwidth.html}
+\item Also referred lecture notes.
+\end{itemize}
+
+
+\newpage
+
+
+\item (6 Points)
+Now focus on the three different macro areas: Create three graphs side-by-side
+that show 
+(a) boxplots for the three macro areas; 
+(b) violin plots for the three macro areas; and
+(c) letter-valued boxplots for the three macro areas.
+
+{\bf Make sure that the macro areas are ordered as 
+Centre.North (left), Sardinia (center), and South (right)
+in your three graphs. You may have to resort the factor levels
+to obtain this ordering when you work with {\it ggplot2}. 
+Moreover, simplify ``Centre.North'' to ``North'' in all of your graphs and legends
+from now on and also refer to this macro area just as ``North'' in your text answers.}
+
+All individual graphs should extend in vertical (top-bottom) direction.
+Thus, use the same scale for the vertical axis.
+Ensure that the graphs follow the small multiples principle.
+So, when you use a specific color for a macro area, you have to use the same color
+in all other graphs for that macro area. 
+Include your final graphs (arranged side-by-side) and your R code.
+What can we learn about similarities and differences of the distributions
+in the three different macro areas from these graphs? \\
+
+
+\underline{Answer:}
+{\scriptsize
+<<fig.width=7,fig.height=7>>=
+# Place your answer here
+library(ggplot2)
+library(gridExtra)
+library(lvplot)
+
+h1 <-
+        ggplot(oliveoil, aes(x = reorder(macro.area, palmitic), y = palmitic)) +
+        geom_boxplot() +
+        scale_x_discrete(labels = c("North", "Sardini", "South")) +
+        theme_bw() +
+        ggtitle("boxplot") +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        xlab("Macro area") +
+        ylab("Palmitic")
+
+h2 <-
+        ggplot(oliveoil, aes(x = reorder(macro.area, palmitic), y = palmitic)) +
+        geom_violin() +
+        scale_x_discrete(labels = c("North", "Sardini", "South")) +
+        theme_bw() +
+        ggtitle("violinplot") +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        xlab("Macro area") +
+        ylab("Palmitic")
+
+h3 <-
+        ggplot(oliveoil, aes(x = reorder(macro.area, palmitic), y = palmitic)) +
+        geom_lv() +
+        scale_x_discrete(labels = c("North", "Sardini", "South")) +
+        theme_bw() +
+        ggtitle("lettervalue-boxplot") +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        xlab("Macro area") +
+        ylab("Palmitic")
+
+grid.arrange(h1, h2, h3, ncol = 3)
+@
+}
+
+
+\underline{Comments:} \\
+Place your answer here
+To get better understanding of above three graphs we should look at the very first histogram,
+where we can see 3 marco areas overlapped over each other. Above 3 graphs explain the histogram really well.
+We can see that the South macro area has the median between 1300-1500 of palmitic fat. Aslo,
+if we look at the violin graph North and Sardini maro areas shows higher concentration at the mdeian.
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {http://www.sthda.com/english/wiki/ggplot2-box-plot-quick-start-guide-r-software-and-data-visualization}
+\item See \url {http://www.sthda.com/english/wiki/ggplot2-violin-plot-quick-start-guide-r-software-and-data-visualization}
+\item See \url {https://www.rdocumentation.org/packages/lvplot/versions/0.2.0/topics/geom_lv}
+\end{itemize}
+
+
+\newpage
+
+
+\item (3 Points)
+Are the distributions in the three different macro areas approximately Normal?
+Construct Q-Q plots and answer this question.
+Include your final graphs (arranged in a meaningful way) and your R code. \\
+
+
+\underline{Answer:}
+{\scriptsize
+<<fig.width=7,fig.height=5>>=
+# Place your answer here
+ggplot(oliveoil, aes(sample = palmitic, colour = factor(macro.area))) +
+        geom_qq() +
+        geom_qq_line() +
+        labs(title = "QQ Plot\n", color = "Macro area\n") +
+        scale_color_manual(
+                labels = c("South", "Sardinia", "North"),
+                values = c("red", "green", "blue")
+        ) +
+        theme(plot.title = element_text(hjust = 0.5))
+@
+}
+
+
+\underline{Comments:} \\
+Place your answer here
+If we have to order according to the noramlity then 
+Sardini is most nomral macro area , then second would be the South which can be said as 
+approximately normal. For north macro area we might need a litlle standardization.
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {https://ggplot2.tidyverse.org/reference/geom_qq.html}
+\end{itemize}
+
+\newpage
+
+
+\item (3 Points)
+Construct three empirical cdfs (ecdfs) for the three different macro areas 
+and overlay them in the same graph. If you used colors before,
+use the same colors again for the three macro areas. In any case, include
+a meaningful legend. How similar (or different) are those ecdfs?
+Include your final graph and your R code. \\
+
+
+\underline{Answer:}
+{\scriptsize
+<<fig.width=7,fig.height=3>>=
+# Place your answer here
+ggplot(oliveoil, aes(palmitic, colour = macro.area)) +
+        stat_ecdf() +
+        labs(title = "ECDF\n", color = "Macro area\n") +
+        scale_color_manual(
+                labels = c("South", "Sardinia", "North"),
+                values = c("red", "green", "blue")
+        ) +
+        theme(plot.title = element_text(hjust = 0.5))
+@
+}
+
+\underline{Comments:} \\
+Place your answer here
+North and South macro areas seem to be perfectly similar with respect to the palmitic fat than the 
+South macro area.
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {https://ggplot2.tidyverse.org/reference/stat_ecdf.html}
+\end{itemize}
+
+\newpage
+
+
+\item (6 Points)
+Summarize your results. What did we learn about  the distribution of the
+palmitic fat overall? And what can we say about the macro areas? Which 
+are similar, which are different (if any). If necessary, repeat some
+of your previous results and observations here. Your summary should be about
+1/2 to 3/4 of a page long. \\
+
+
+\underline{Comments:} \\
+Starting with the first graph, if we look at the overlapping of three macro areas. We can
+clearly see that most of the oliveoil comes from South followed by North and Sardinia. Also,
+if we talk about the highest pamiltic count then it ranges from 1000-1250 and the number of macro
+area for this range of palmitic acid is 50 to 90.50 being the North followed by Sardinia and South
+on the highest end.
+Secondly,to prove the above statement we can have a look at the box plots and violin plots.
+For the South the median is approzimately 1350 and the spread of violin plot concludes that the 
+distribution of the palmitic and South is near this value. From the density curves we can say that
+the palmitic fatty acid is not normalized as we cannot see perfect bell shaped curve. Hence,w
+we need some soomethening to do.
+
+\end{enumerate}
+
+
+\newpage
+
+
+\item (16 Points) {\bf Hair and Eye Colors:}
+In this question, you have to work with the {\it HairEyeColor} data set (from  baseR).
+It shows the distribution of hair color, eye color, and sex in 592 statistics students.
+See the {\it HairEyeColor} help page and 
+any of the cited references
+for further details.
+
+\begin{enumerate}
+\item (6 Point) Create six different mosaic plots that show all possible
+layouts for the three variables, using baseR. Also show the standardized residuals,
+based on the assumption that all three variables are independent.
+Include your figures and your R code. \\
+
+
+\underline{Answer:}
+{\scriptsize
+<<fig.width=6,fig.height=9>>=
+# Place your answer here
+data("HairEyeColor")
+library(vcd)
+
+par(mfrow = c(3, 2))
+mosaicplot( ~ Sex + Hair + Eye, data = HairEyeColor, shade = TRUE)
+mosaicplot( ~ Sex + Eye + Hair, data = HairEyeColor, shade = TRUE)
+mosaicplot( ~ Eye + Hair + Sex, data = HairEyeColor, shade = TRUE)
+mosaicplot( ~ Eye + Sex + Hair, data = HairEyeColor, shade = TRUE)
+mosaicplot( ~ Hair + Sex + Eye, data = HairEyeColor, shade = TRUE)
+mosaicplot( ~ Hair + Eye + Sex, data = HairEyeColor, shade = TRUE)
+
+@
+}
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/mosaicplot}
+\item Also,referred lecture notes
+\end{itemize}
+
+\newpage
+
+
+\item (5 Point) Overall, each of your mosaic plots above should show seven colored areas.
+These may relate to hair color, eye color, or sex. Six of the seven shaded areas 
+come in pairs (i.e., three pairs of two related areas each) 
+and one is a unique combination of the three variables.
+Optimize (i.e., add labels, etc.) the mosaic plot that best displays the pairs and 
+the unique combination. 
+Pairs should be located next to each other and not in different regions of the plot.
+There are two (of the six) mosaic plots that meet this condition and could be optimized.
+You only have to optimize one.
+Include your resulting figure and your R code. \\
+
+
+\underline{Answer:} \\
+Place your answer here
+
+{\scriptsize
+<<fig.width=7.0,fig.height=6.5>>=
+# Place your answer here
+mosaicplot(
+        ~ Eye + Hair + Sex,
+        data = HairEyeColor,
+        main = "Hair eye color graph",
+        shade = TRUE,
+        xlab = "Eye",
+        ylab = "Hair",
+        cex.axis = 0.66,
+        border = "brown"
+)
+
+@
+
+}
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/mosaicplot}
+\item Also,referred lecture notes
+\end{itemize}
+
+
+\newpage
+
+
+\item (5 Point) Describe and explain your mosaic plot from (b) above. 
+What can be seen? Assume that a reader is not familiar with mosaic plots,
+so you have to start with the basic layout you used. How can we best interpret
+the three pairs and the unique combination? Isn't there an important lurking variable that
+is missing from this data set, but that would help to even better explain the
+observed pattern? Which variable is this --- and how could it be used to explain
+the pattern? \\
+
+
+\underline{Answer:} \\
+A mosaic plot is a graphical display of the cell frequencies of a contingency 
+table in which the area of boxes of the plot are proportional to the cell 
+frequencies of the contingency table.
+In the above mosaic plot width of the bar indicates the color of eye in male and female while
+the height of bar indicates the color of hair in male and female. If we look at the brow color eye
+then we can say that there are slightly more females with brown color eye than males from the width of the 
+bar. While the there are no male with blue color eye but we do have female with blue color eye.The hair color 
+for blonde and black for male and female is the same. The missing variable is blue color eye for male.
+
+\end{enumerate}
+
+
+\newpage
+
+
+\item (10 Points) {\bf Barley Data:}
+Reconstruct and optimize the final version of the {\it barley} data dot plot
+from Section 5.7 (Dot Charts for Univariate Data) in our lecture notes, using {\it ggplot2}. For convenience, this original graph, based on the {\it lattice} R package, is shown below.
+
+Make sure that you use the same sorting (of the varieties and of the sites) and colors (for the years)
+as in our version of this plot
+that was created via the {\it lattice} dotplot function.
+Include your final figure and your R code. 
+
+
+{\scriptsize
+<<fig.width=7.0,fig.height=10.0>>=
+library(lattice)
+
+data(barley)
+
+# alphabetical sorting of sites (top to bottom)
+dotplot(
+        variety ~ yield | site,
+        data = barley,
+        groups = year,
+        key = simpleKey(levels(barley$year), space = "right"),
+        xlab = "Barley Yield (bushels/acre)",
+        aspect = 0.5,
+        layout = c(1, 6),
+        ylab = NULL,
+        index.cond = list(c(6, 3, 4, 1, 2, 5))
+)
+@
+}
+
+\underline{Reference :} 
+\begin{itemize}
+\item Referred lecture notes
+\end{itemize}
+
+
+\newpage
+
+
+\underline{Answer:} \\
+Place your answer here
+
+
+{\scriptsize
+<<fig.width=5.0,fig.height=9.0>>=
+# Place your answer here
+library(plyr)
+library(lattice)
+library(ggplot2)
+data(barley)
+
+neworder <-
+        c("Crookston",
+          "Duluth",
+          "Grand Rapids",
+          "Morris",
+          "University Farm",
+          "Waseca")
+barley <- arrange(transform(barley,
+                            site = factor(site, levels = neworder)), site)
+
+ggplot(barley) +
+        geom_point(aes(x = yield, y = variety, color = year), shape = 1) +
+        scale_color_manual(values = c("1932" = "#4d9cff", "1931" = "#ff53ff")) +
+        facet_wrap( ~ site, dir = "v", ncol = 1) +
+        theme_bw() +
+        xlab("Barley Yield (bushles/acre)") +
+        ylab("") +
+        theme(
+                panel.grid.major.x = element_blank(),
+                strip.background = element_rect(fill = "#ffe5cc"),
+                panel.margin.y = unit(-0.1, "lines"),
+                axis.ticks.y = element_blank(),
+                legend.title = element_blank(),
+                aspect.ratio = 0.5
+        )
+@
+}
+
+
+\end{enumerate}
+
+\underline{Reference :} 
+\begin{itemize}
+\item See \url {https://ggplot2.tidyverse.org/reference/facet_wrap.html}
+\item Also,referred lecture notes
+\end{itemize}
+
+
+\newpage
+
+
+\noindent{\Large \bf General Instructions}~\\
+
+
+\begin{enumerate}
+\item Create a single pdf document, using R Markdown, Sweave, or knitr.
+%When you take this course at the 6000--level, you have to use \LaTeX\ in
+%combination with Sweave or knitr.
+You only have to submit this one document to Canvas.
+
+\item Include a title page that contains your name, your A--number, the number of
+the assignment, the submission date, and any other relevant information.
+
+\item Start your answers to each main question on a new page (continuing with the next
+part of a question on the same page is fine). 
+Clearly label each question and question part. Your answer to question (i) should start on page 2!
+
+\item Show your R code and resulting graph(s) for each question part!
+
+\item Before you submit your homework, check that you
+follow all recommendations from Google's R Style Guide
+(see \url{http://web.stanford.edu/class/cs109l/unrestricted/resources/google-style.html}). 
+Moreover, make sure that your R code is consistent, i.e., that you use the same
+type of assignments and the same type of quotes throughout your entire homework.
+
+\item Give credit to external sources, such as stackoverflow or help pages. Be specific
+and include the full URL where you found the help (or from which help page you got 
+the information). Consider R code from such sources as ``legacy code or third--party code'' 
+that does not have to be adjusted to Google's R Style (even though it would be nice,
+in particular if you only used a brief code segment).
+
+\item {\bf Not following the general instructions outlined above will result in point deductions!}
+
+\item For general questions related to this homework, please
+use the corresponding discussion board in Canvas! I will try to
+reply as quickly as possible. Moreover, if one of you knows
+an answer, please post it. It is fine to refer to web pages
+and R commands, but do not provide the exact R command with all required arguments
+or which of the suggestions from a stackoverflow web page eventually worked for you! 
+This will be the task for each individual student!
+
+\item Submit your single pdf file via Canvas by the submission deadline.
+Late submissions will result in point deductions as outlined on the syllabus.
+
+\end{enumerate}
+
+
+\end{document}
+
